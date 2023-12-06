@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,3 +15,6 @@ COS_BUCKET = os.getenv('COS_BUCKET')
 
 # COS region
 COS_REGION = os.getenv('COS_REGION')
+
+# COS endpoint
+COS_ENDPOINT = f'https://{COS_BUCKET}.cos.{COS_REGION}.myqcloud.com'
