@@ -1,12 +1,10 @@
-from logging.config import dictConfig
-
 import uvicorn
 from fastapi import FastAPI
 
 from api import api_router
 from utils.log import logger
 
-app = FastAPI(title="SA")
+app = FastAPI(title="Segment Anything Model Service")
 
 app.include_router(api_router)
 
