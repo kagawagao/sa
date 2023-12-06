@@ -11,7 +11,9 @@ from fastapi import UploadFile
 from segment_anything import SamPredictor, sam_model_registry
 
 from configs import TEMP_DIR
+from configs.cos import COS_ENDPOINT
 from configs.sam import SAM_MODEL_CHECKPOINT, SAM_MODEL_TYPE
+from schemas.image import ImageEmbeddingResponse
 from services.cos import upload_object
 from utils.log import logger
 
@@ -20,7 +22,7 @@ sam = sam_model_registry[SAM_MODEL_TYPE](checkpoint=SAM_MODEL_CHECKPOINT)
 predictor = SamPredictor(sam)
 
 
-async def embedding_image_and_upload(image: UploadFile) -> Tuple[str, str]:
+async def embedding_image_and_upload(image: UploadFile) -> ImageEmbeddingResponse:
     """
     图片embedding
     """
@@ -49,4 +51,9 @@ async def embedding_image_and_upload(image: UploadFile) -> Tuple[str, str]:
     logger.info(f'end upload image embedding: {image.filename}')
     # 移除临时文件
     rmtree(temp_dir)
-    return f'{uuid}/{image.filename}', f'{uuid}/embedding.npy'
+    return ImageEmbeddingResponse(
+        image=f'{COS_ENDPOINT}/{uuid}/{image.filename}',
+        embedding=f'{COS_ENDPOINT}/{uuid}/embedding.npy',
+        key=f'{uuid}',
+        mask_key=f'{uuid}/{image.filename}'
+    )
