@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "sa"
+version = "0.1.0"
+description = ""
+authors = ["kagawagao <kingsongao1221@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+segment-anything = { git = "https://github.com/facebookresearch/segment-anything.git" }
+fastapi = "^0.104.1"
+torchvision = "^0.16.1"
+uvicorn = "^0.24.0.post1"
+pydantic = "^2.5.2"
+python-dotenv = "^1.0.0"
+cos-python-sdk-v5 = "^1.9.26"
+opencv-python = "^4.8.1.78"
+pycocotools = "^2.0.7"
+matplotlib = "^3.8.2"
+onnxruntime = "^1.16.3"
+onnx = "^1.15.0"
+aiofiles = "^23.2.1"
+python-multipart = "^0.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
