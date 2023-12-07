@@ -7,6 +7,7 @@ from uuid import uuid4
 import aiofiles
 import cv2
 import numpy as np
+import torch
 from fastapi import UploadFile
 from segment_anything import SamPredictor, sam_model_registry
 
@@ -18,6 +19,10 @@ from services.cos import upload_object
 from utils.log import logger
 
 sam = sam_model_registry[SAM_MODEL_TYPE](checkpoint=SAM_MODEL_CHECKPOINT)
+
+if torch.cuda.is_available():
+    logger.info('use cuda')
+    sam.to(device=torch.device('cuda'))
 
 predictor = SamPredictor(sam)
 
