@@ -2,19 +2,21 @@
 
 > A backend service which implement [segment anything](https://github.com/facebookresearch/segment-anything)
 
-## Requirements
+## Requirement environment
 
 - `Python`: `^3.11`
 - `poetry`: `^1.x`
 - [`Segment Anything Model`](https://github.com/facebookresearch/segment-anything?tab=readme-ov-file#model-checkpoints)
 
-## Installation
+> `poetry` installation guide: [https://python-poetry.org/docs/#installation](https://python-poetry.org/docs/#installation)
+
+## Installation dependencies
 
 ```bash
 poetry install
 ```
 
-## Configuration
+## Configuration file
 
 - `.env`
 
