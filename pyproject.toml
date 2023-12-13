@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "sa"
 version = "0.1.0"
-description = ""
+description = "A backend service which implement segment anything"
 authors = ["kagawagao <kingsongao1221@gmail.com>"]
 license = "MIT"
 readme = "README.md"
