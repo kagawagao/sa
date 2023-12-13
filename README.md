@@ -40,6 +40,12 @@ SAM_MODEL_TYPE=vit_h
 python main.py
 ```
 
+- run with `uvicorn`
+
+```bash
+uvicorn main:app --reload
+```
+
 - run with `poetry`
 
 ```bash
