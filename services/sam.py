@@ -1,8 +1,7 @@
 import concurrent.futures
 import os
 from shutil import rmtree
-from typing import Tuple
-from uuid import uuid4
+from uuid import UUID
 
 import aiofiles
 import cv2
@@ -27,12 +26,11 @@ if torch.cuda.is_available():
 predictor = SamPredictor(sam)
 
 
-async def embedding_image_and_upload(image: UploadFile) -> ImageEmbeddingResponse:
+async def embedding_image_and_upload(image: UploadFile, uuid: str) -> ImageEmbeddingResponse:
     """
     图片embedding
     """
-    logger.info(f'start get image embedding: {image.filename}')
-    uuid = uuid4()
+    logger.debug(f'start get image embedding: {image.filename}')
     temp_dir = f'{TEMP_DIR}/{uuid}'
     os.makedirs(temp_dir, exist_ok=True)
     out_file_path = f'{temp_dir}/{image.filename}'
@@ -44,21 +42,21 @@ async def embedding_image_and_upload(image: UploadFile) -> ImageEmbeddingRespons
     image_embedding_file_name = f'{temp_dir}/embedding.npy'
     image_embedding = predictor.get_image_embedding().cpu().numpy()
     np.save(image_embedding_file_name, image_embedding)
-    logger.info(f'end get image embedding: {image.filename}')
+    logger.debug(f'end get image embedding: {image.filename}')
 
-    logger.info(f'start upload image embedding: {image.filename}')
+    logger.debug(f'start upload image embedding: {image.filename}')
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         executor.submit(
-            upload_object, f'{uuid}/embedding.npy', image_embedding_file_name)
+            upload_object, f'sam/{uuid}/embedding.npy', image_embedding_file_name)
         executor.submit(
-            upload_object, f'{uuid}/{image.filename}', out_file_path)
+            upload_object, f'sam/{uuid}/{image.filename}', out_file_path)
 
-    logger.info(f'end upload image embedding: {image.filename}')
+    logger.debug(f'end upload image embedding: {image.filename}')
     # 移除临时文件
     rmtree(temp_dir)
     return ImageEmbeddingResponse(
-        image=f'{COS_ENDPOINT}/{uuid}/{image.filename}',
-        embedding=f'{COS_ENDPOINT}/{uuid}/embedding.npy',
+        image=f'{COS_ENDPOINT}/sam/{uuid}/{image.filename}',
+        embedding=f'{COS_ENDPOINT}/sam/{uuid}/embedding.npy',
         key=f'{uuid}',
-        mask_key=f'{uuid}/{image.filename}'
+        mask_key=f'sam/{uuid}/{image.filename}'
     )
