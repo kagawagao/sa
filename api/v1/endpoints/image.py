@@ -10,7 +10,6 @@ router = APIRouter(prefix="/image", tags=["image"])
 
 @router.post('/embedding', response_model=ImageEmbeddingResponse, summary="创建图片的embedding")
 async def get_image_embedding(body: ImageEmbeddingReq):
-    uuid = body.uuid if body.uuid and not str(
-        body.uuid).isspace() else uuid4().hex
+    uuid = body.uuid if body.uuid else uuid4().hex
     embedding = await embedding_image_and_upload(url=body.image, uuid=uuid)
     return ImageEmbeddingResponse(embedding=embedding)
