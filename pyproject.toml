@@ -21,7 +21,7 @@ matplotlib = "^3.8.2"
 onnxruntime = "^1.16.3"
 onnx = "^1.15.0"
 aiofiles = "^23.2.1"
-python-multipart = "^0.0.6"
+python-multipart = "^0.0.7"
 
 
 [build-system]
